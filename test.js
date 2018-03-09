@@ -3,6 +3,7 @@ Object.freeze(assert);
 
 const count = require('./src/index');
 
+
 describe('Help me', () => {
   it('0', () => {
     const result = count('1', [[2, 1], [3, 1]]);
@@ -24,10 +25,10 @@ describe('Help me', () => {
     assert.equal(result, 4);
   });
 
-  it('4', () => {
-    const result = count('01', [[3, 3]]);
-    assert.equal(result, 9);
-  });
+    it('4', () => {
+      const result = count('01', [[3, 3]]);
+      assert.equal(result, 9);
+    });
 
   it('5', () => {
     const result = count('01', [[3, 1], [2, 1], [23, 1], [29, 1], [11, 1]]);
