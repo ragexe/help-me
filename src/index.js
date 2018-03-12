@@ -31,7 +31,7 @@ module.exports = function count(mask, pairs) {
     }
 
     // return 0
-    return pairs.reduce((prevPair, currentPair) => {
+    return ~~pairs.reduce((prevPair, currentPair) => {
         result *= currentPair[0] ** (currentPair[1] - 1)
         if (result > 1000000007) {
             result %= 1000000007;
