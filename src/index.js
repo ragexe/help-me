@@ -1,34 +1,43 @@
-module.exports = function count2(mask, pairs) {
-    let count = 0;
+module.exports = function count(mask, pairs) {
+    let result = 0;
 
     let reducedMask = Array.prototype.reduce.call(mask, (prev, curr) => {
         return parseInt(prev) + parseInt(curr)
     });
-    let multipliers = pairs.map((pair) => pair[0]).sort((left, right) => left - right);
-    if (reducedMask > multipliers[0] || (mask.length - reducedMask) > multipliers[0]) return count;
 
+    let multipliers = pairs.map((pair) => pair[0]).sort((left, right) => left - right);
+
+    if (reducedMask > multipliers[0] || (mask.length - reducedMask) > multipliers[0]) return result;
 
     let powers = pairs.map((pair) => pair[1]);
 
-
-
-
     for (let j = 0; j < mask.length; j++) {
-        count += getQuantity(multipliers, +mask[j] === 1)
+        result += getQuantity(multipliers, +mask[j] === 1)
     }
 
-    let totalPower = powers.reduce((previousValue, currentValue) => {
-        let result = 1;
-
-        result *= (currentValue - 1) ? (currentValue - 1) : 1;
-        return result;
+    let totalPower = powers.reduce((accumulator, currentValue) => {
+        return accumulator *= (currentValue - 1) !== 0 ? (currentValue - 1) : 1;
     }, 1);
 
-    // let totalMultiplier = multipliers.reduce((previousValue, currentValue) => {
-    //     return (previousValue - 1) * (currentValue - 1)
-    // });
+    let totalMultiplier = multipliers.reduce((previousValue, currentValue) => {
+        return (previousValue) * (currentValue)
+    });
 
-    return (count * totalPower) % 1000000007
+    console.log(`multi ${totalMultiplier}`);
+    console.log(result);
+
+    if (mask.length > 1) {
+        result /= multipliers[0]
+    }
+
+    // return 0
+    return pairs.reduce((prevPair, currentPair) => {
+        result *= currentPair[0] ** (currentPair[1] - 1)
+        if (result > 1000000007) {
+            result %= 1000000007;
+        }
+        return result
+    }, result)
 };
 
 function getQuantity(array, isEqualOne) {
